@@ -30,22 +30,29 @@ namespace Ejercicios_Linq
             };
 
 
-            // Estudiantes mayores de edad
-            var MayorEdad = estudiantes.Where(e => e.Age >= 18);
-            
-            foreach (var s in MayorEdad)
+            // Estudiantes mayores de edad arfabeticamente
+            var MayorEdad = estudiantes
+                .Where(e => e.Age >= 18) 
+                .OrderBy(e => e.Name ?? string.Empty, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+
+            foreach (var m in MayorEdad)
             {
-                Console.WriteLine($"Eestudiantes mayores de edad; Nombre: {s.Name}, Edad: {s.Age}");
+                Console.WriteLine($"Eestudiantes mayores de edad; Nombre: {m.Name}, Edad: {m.Age}");
             }
             Console.WriteLine("=============================================");
 
-            //Lista de estudiantes aprovado  >= 70
-            var Aprovados = estudiantes.Where(e => e.Grade >= 70);
+            //Lista de estudiantes aprovado  >= 70  ordenados de mayor a menor calificación.
+            var Aprovados = estudiantes
+                .Where(e => e.Grade >= 70)
+                .OrderByDescending(e=> e.Grade)
+                .ThenBy(e=> e.Name ?? string.Empty, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
 
-            foreach (var estudiante in Aprovados) {
+            foreach (var a in Aprovados) {
 
                 Console.WriteLine("");
-                Console.WriteLine($"Nombre {estudiante.Name}, Aprovado: {estudiante.Grade}");
+                Console.WriteLine($"Nombre {a.Name}, : {a.Grade}");
             
             }
             Console.WriteLine("===============================================");
@@ -55,7 +62,7 @@ namespace Ejercicios_Linq
 
             if (EstudianteId != null) {
 
-                Console.WriteLine($"Nombre:{EstudianteId.Name},ID del Estudiante: {EstudianteId.Id}");
+                Console.WriteLine($"ID: {EstudianteId.Id},Nombre: {EstudianteId.Name},Carrera:{EstudianteId.Career}");
             }
             Console.WriteLine("=============================");
             //ejercicio4: Muestra cuántos estudiantes hay en la carrera de "Ingeniería" y cuál es su promedio de notas.
